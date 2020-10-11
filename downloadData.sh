@@ -5,4 +5,4 @@ wget https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20
 unzip temp.zip
 rm temp.zip
 
-mv 'UCI HAR Dataset' source-data
+mv 'UCI HAR Dataset' raw-data

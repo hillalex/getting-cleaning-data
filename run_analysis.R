@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 library(readr)
 library(dplyr)
 
@@ -5,8 +6,12 @@ if (!dir.exists("output-data")) {
   dir.create("output-data")
 }
 
+if (!dir.exists("raw-data")) {
+  stop("\n The source data is not in place.\n Please refer to the README for instructions.\n ")
+}
+
 read_data_file <- function(file_path) {
-  read_delim(paste0("source-data/", file_path), delim = " ", col_names = FALSE, trim_ws = TRUE)
+  read_delim(paste("raw-data", file_path, sep = "/"), delim = " ", col_names = FALSE, trim_ws = TRUE)
 }
 
 # merge test and train data
@@ -27,29 +32,36 @@ subject_total <- rbind(subject_test, subject_train)
 # extract mean and standard deviation measurements
 features <- read_data_file("features.txt")
 filtered_features <- features %>%
-  filter(grepl("((.*)mean(.*))|((.*)std(.*))", X2))
+  filter(grepl("((.*)-mean\\(\\))|((.*)-std\\(\\))", X2))
 
 filtered_feature_cols_vector <- filtered_features[["X1"]]
 
 data <- X_total %>%
-  select(filtered_feature_cols_vector)
+  select(all_of(filtered_feature_cols_vector))
 
 # label activities
 activity_labels <- read_data_file("activity_labels.txt")
 activity_factor <- as.factor(activity_labels[[2]])
 
-y_total_labelled <- y_total %>% mutate(activity = as.factor(X1)) %>%
- select(activity)
+y_total_labelled <- y_total %>%
+  mutate(activity = as.factor(X1)) %>%
+  select(activity)
 
 levels(y_total_labelled[["activity"]]) <- levels(activity_factor)
 data <- cbind(y_total_labelled, data)
 
 # add subjects
-data <- cbind(y_total, data)
+data <- cbind(subject_total, data)
 names(data) <- c("subject", "activity", filtered_features[["X2"]])
 
 # write data set to file
-write.table(data, file="output-data/data.txt", row.names = FALSE)
+write.table(data, file = "output-data/data.txt", row.names = FALSE, quote = FALSE)
 
 # calc average of each variable for each activity and subject
+averages <- data %>%
+  group_by(subject, activity) %>%
+  summarise_all(mean)
 
+names(averages) <- c("subject", "activity", lapply(filtered_features[["X2"]], function(x) paste("average", x, sep = "_")))
+
+write.table(averages, file = "output-data/averages.txt", row.names = FALSE, quote = FALSE)
