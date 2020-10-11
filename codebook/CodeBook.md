@@ -64,19 +64,18 @@ Before running `run_analysis.R`, the `downloadData.sh` script was run, which imp
 
 The script `run_analysis.R` does the following:
 
-1. Recombines test and train data from the raw dataset: reads in the `{}/X_{}.txt`,`{}/y_{}.txt`, and `{}/subject_{}.txt` files from the 
-`test` and `train` subdirectories in the raw data directory, and combines these into 3 dataframes
-`X_total`, `y_total` and `subject_total`. These dataframes collectively describe the full set of 10299 observations; each observation
-containing a vector of measurements (found in `X_total`), an activity type id (found in `y_total`) and a subject id 
-(found in `subject_total`).
+1. Recombines test and train data from the raw dataset into a single dataset. At this point the dataset is still split 
+between 3 dataframes containing measurements, activity type and subject data respectively.
 
-1. Filters `X_total` to just the measurements we are interested in - means and standard deviations.
+1. Filters measurement data to just the measurements we are interested in - means and standard deviations.
 
-1. Combines the table obtained in the previous step with `y_total` to get a single table including both activity types and measurements. Uses the `activity_labels.txt` data in
- the raw data directory to convert the numeric activity types to human readable ones.
+1. Combines measurements data with activity type data, converting the numeric activity types to human readable ones
+ using the labels provided in the raw dataset.
  
-1. Combines the data obtained in the previous step with `subject_total` to get a single table including
-subjects.
+1. Combines data in previous step with subject data, to create a single dataframe containing all the variables we 
+are interested in.
+ 
+1. Gives the dataset descriptive column names based on the variables included.
 
 1. Writes the new dataset to file at [output-data/data.txt](../output-data/data.txt)
 

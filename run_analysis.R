@@ -52,6 +52,8 @@ data <- cbind(y_total_labelled, data)
 
 # add subjects
 data <- cbind(subject_total, data)
+
+# add descriptive column names
 names(data) <- c("subject", "activity", filtered_features[["X2"]])
 
 # write data set to file
