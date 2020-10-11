@@ -54,7 +54,8 @@ data <- cbind(y_total_labelled, data)
 data <- cbind(subject_total, data)
 
 # add descriptive column names
-names(data) <- c("subject", "activity", filtered_features[["X2"]])
+nicer_names <- gsub("\\(|\\)", "", filtered_features[["X2"]])
+names(data) <- c("subject", "activity", nicer_names)
 
 # write data set to file
 write.table(data, file = "output-data/data.txt", row.names = FALSE, quote = FALSE)
@@ -64,6 +65,6 @@ averages <- data %>%
   group_by(subject, activity) %>%
   summarise_all(mean)
 
-names(averages) <- c("subject", "activity", lapply(filtered_features[["X2"]], function(x) paste("average", x, sep = "_")))
+names(averages) <- c("subject", "activity", lapply(nicer_names, function(x) paste("average", x, sep = "_")))
 
 write.table(averages, file = "output-data/averages.txt", row.names = FALSE, quote = FALSE)

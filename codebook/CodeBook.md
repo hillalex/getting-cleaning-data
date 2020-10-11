@@ -34,9 +34,15 @@ complete list of these variables. To interpret these variables:
 1. `subject` - an identifier of the volunteer subject
 1. `activity` - one of the 6 activity types listed above
 
-variables 3 - 68 identify a particular measurement, the meaning of which 
-is described by the file [variables_info.txt](variables_info.txt) (please note `variables_info.txt` describes 
-a superset of the variables included in this dataset.)
+variables 3 - 68 identify a particular measurement. Each variable name is in the format
+
+```
+{name}-{statistic}-{direction}
+```
+
+ where `name` is one of the 17 measurement types described in the file
+ [variables_info.txt](variables_info.txt), `statistic` is either `mean` or `std`, and (where relevant) 
+`direction` is one of X,Y or Z.
 
 ### averages.txt
 
@@ -52,8 +58,15 @@ the complete list of these variables. To interpret these variables:
 1. `activity` - one of the 6 activity types listed above
 
 variables 3 - 68 refer to the average (mean) for a particular measurement for the given subject and 
-activity type. As before, the meaning of each measurement is described by the file [variables_info.txt](variables_info.txt) 
-(please note `variables_info.txt` describes a superset of the variables referenced in this dataset.)
+activity type. Each variable name is in the format
+
+```
+average_{name}-{statistic}-{direction}
+```
+
+ where `name` is one of the 17 measurement types described in the file
+ [variables_info.txt](variables_info.txt), `statistic` is either `mean` or `std`, and (where relevant) 
+`direction` is one of X,Y or Z.
 
 ## Recipe
 
