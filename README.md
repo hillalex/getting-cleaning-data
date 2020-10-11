@@ -13,7 +13,7 @@ some metadata about the variables in the datasets, respectively:
 1. `generate_variables.R`
 
 And a CodeBook describing the data:
-1. `CodeBook.md`
+1. `codebook/CodeBook.md`
 
 See [CodeBook.md](codebook/CodeBook.md) for details.
 
